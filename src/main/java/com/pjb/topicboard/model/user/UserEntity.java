@@ -5,15 +5,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "USER_TB")
 @Entity
 public class UserEntity extends BaseTimeEntity {
