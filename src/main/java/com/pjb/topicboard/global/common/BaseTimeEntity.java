@@ -23,5 +23,5 @@ public class BaseTimeEntity {
 
     @LastModifiedDate
     @Column(name = "updated_date")
-    private LocalDate updatedDate;
+    private LocalDateTime updatedDate;
 }

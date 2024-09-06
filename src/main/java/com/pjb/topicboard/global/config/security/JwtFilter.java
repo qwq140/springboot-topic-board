@@ -26,11 +26,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.debug("JwtFilter 동작");
         String jwtHeader = request.getHeader(JwtConstants.HEADER);
 
         // header에 토큰이 없으면
-        if(jwtHeader == null || jwtHeader.startsWith(JwtConstants.TOKEN_PREFIX)) {
+        if(jwtHeader == null || !jwtHeader.startsWith(JwtConstants.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -41,8 +40,8 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(provider.getAuthentication(decodedJWT));
         } catch (Exception401 e) {
             request.setAttribute("exception", e.getMessage());
-        } catch (JWTVerificationException e) {
-            request.setAttribute("exception", "토큰 검증 실패");
+        } catch (Exception e) {
+            request.setAttribute("exception",  "토큰 검증 실패");
         } finally {
             filterChain.doFilter(request, response);
         }

@@ -35,7 +35,7 @@ public class JwtProvider {
         DecodedJWT decodedJWT = JWT.require(algorithm).build().verify(token);
 
         if(!decodedJWT.getClaim("token-type").asString().equals(tokenType.name())) {
-            throw new Exception401("토큰 검증 실패");
+            throw new Exception401("올바르지 않은 토큰 타입 입니다.");
         }
 
         return decodedJWT;
