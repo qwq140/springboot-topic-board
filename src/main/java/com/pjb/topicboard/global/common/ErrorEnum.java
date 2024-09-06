@@ -17,12 +17,15 @@ public enum ErrorEnum {
 
     /* USER */
     INVALID_CREDENTIALS(HttpStatus.NOT_FOUND, "USER-001","아이디 또는 비밀번호가 틀렸습니다."),
-    USERNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "USER-002", "이미 존재하는 아이디 입니다."),
-    NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "USER-003", "이미 존재하는 닉네임 입니다."),
+    USERNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "USER-002", "이미 존재하는 아이디입니다."),
+    NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "USER-003", "이미 존재하는 닉네임입니다."),
 
     /* BOARD */
-    BOARD_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "BOARD-001", "이미 존재하는 게시판 입니다."),
-    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD-002", "존재 하지 않은 게시판 입니다.");
+    BOARD_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "BOARD-001", "이미 존재하는 게시판입니다."),
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "BOARD-002", "존재하지 않은 게시판입니다."),
+
+    /* POST */
+    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST-001", "존재하지 않은 게시글입니다.");
 
     private final HttpStatus status;
     private final String errorCode;

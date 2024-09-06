@@ -15,6 +15,8 @@ public class UrlRoleMapping {
 
     public static final String[] PUBLIC_GET_URLS = {
             "/api/boards",
-            "/api/boards/{id}"
+            "/api/boards/{id}",
+            "/api/boards/{id}/posts",
+            "/api/posts/{id}"
     };
 }
