@@ -1,10 +1,9 @@
 package com.pjb.topicboard.global.exception.handler;
 
+import com.pjb.topicboard.global.common.ErrorEnum;
+import com.pjb.topicboard.global.common.ErrorResponseDTO;
 import com.pjb.topicboard.global.common.ResponseDTO;
-import com.pjb.topicboard.global.exception.CustomValidationException;
-import com.pjb.topicboard.global.exception.Exception400;
-import com.pjb.topicboard.global.exception.Exception401;
-import com.pjb.topicboard.global.exception.Exception404;
+import com.pjb.topicboard.global.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,24 +11,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
-
-    @ExceptionHandler(Exception400.class)
-    protected ResponseEntity<?> exception400(Exception400 e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO<>(-1, e.getMessage()));
-    }
-
-    @ExceptionHandler(Exception401.class)
-    protected ResponseEntity<?> exception401(Exception401 e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO<>(-1, e.getMessage()));
-    }
-
-    @ExceptionHandler(Exception404.class)
-    protected ResponseEntity<?> exception404(Exception404 e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO<>(-1, e.getMessage()));
+    @ExceptionHandler(CustomCommonException.class)
+    protected ResponseEntity<?> commonException(CustomCommonException e) {
+        return ResponseEntity.status(e.getErrorEnum().getStatus()).body(new ErrorResponseDTO<>(e.getErrorEnum()));
     }
 
     @ExceptionHandler(CustomValidationException.class)
     protected ResponseEntity<?> validationException(CustomValidationException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO<>(-1, e.getMessage(), e.getErrorMap()));
+        ErrorEnum error = ErrorEnum.VALIDATION_ERROR;
+        return ResponseEntity.status(error.getStatus().value()).body(new ErrorResponseDTO<>(error, e.getErrorMap()));
     }
 }

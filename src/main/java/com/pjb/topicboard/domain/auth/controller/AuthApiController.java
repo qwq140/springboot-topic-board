@@ -8,6 +8,7 @@ import com.pjb.topicboard.global.common.ResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,16 +26,16 @@ public class AuthApiController {
 
     @PostMapping("/join")
     public ResponseEntity<?> join(@Valid @RequestBody JoinRequestDTO requestDTO, BindingResult bindingResult) {
-        return ResponseEntity.ok(new ResponseDTO<>(1, "회원가입 완료", authService.join(requestDTO)));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "회원가입 완료", authService.join(requestDTO)));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO requestDTO, BindingResult bindingResult) {
-        return ResponseEntity.ok(new ResponseDTO<>(1, "로그인 완료", authService.login(requestDTO)));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "로그인 완료", authService.login(requestDTO)));
     }
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(@RequestBody ReissueRequestDTO requestDTO) {
-        return ResponseEntity.ok(new ResponseDTO<>(1, "토큰 재발급 완료", authService.reissueToken(requestDTO.refreshToken())));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "토큰 재발급 완료", authService.reissueToken(requestDTO.refreshToken())));
     }
 }

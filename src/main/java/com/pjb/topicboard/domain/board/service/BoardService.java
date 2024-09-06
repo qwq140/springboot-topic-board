@@ -6,8 +6,8 @@ import com.pjb.topicboard.domain.board.dto.response.BoardDetailResponseDTO;
 import com.pjb.topicboard.domain.board.dto.response.BoardListResponseDTO;
 import com.pjb.topicboard.domain.board.dto.response.BoardSaveResponseDTO;
 import com.pjb.topicboard.domain.board.dto.response.BoardUpdateResponseDTO;
-import com.pjb.topicboard.global.exception.Exception400;
-import com.pjb.topicboard.global.exception.Exception404;
+import com.pjb.topicboard.global.common.ErrorEnum;
+import com.pjb.topicboard.global.exception.CustomCommonException;
 import com.pjb.topicboard.model.board.BoardEntity;
 import com.pjb.topicboard.model.board.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class BoardService {
     public BoardSaveResponseDTO saveBoard(BoardSaveRequestDTO requestDTO) {
         Optional<BoardEntity> boardOptional = boardRepository.findByName(requestDTO.name());
         if(boardOptional.isPresent()) {
-            throw new Exception400("존재하는 게시판 이름입니다.");
+            throw new CustomCommonException(ErrorEnum.BOARD_ALREADY_EXIST);
         }
 
         BoardEntity savedBoard = boardRepository.save(requestDTO.toEntity());
@@ -37,7 +37,7 @@ public class BoardService {
 
     public BoardDetailResponseDTO findBoard(Long boardId) {
         BoardEntity board = boardRepository.findById(boardId).orElseThrow(
-                () -> new Exception404("존재 하지 않은 게시판 입니다.")
+                () -> new CustomCommonException(ErrorEnum.BOARD_NOT_FOUND)
         );
         return new BoardDetailResponseDTO(board);
     }
@@ -50,7 +50,7 @@ public class BoardService {
     @Transactional
     public BoardUpdateResponseDTO updateBoard(Long boardId, BoardUpdateRequestDTO requestDTO) {
         BoardEntity board = boardRepository.findById(boardId).orElseThrow(
-                () -> new Exception404("존재 하지 않은 게시판 입니다.")
+                () -> new CustomCommonException(ErrorEnum.BOARD_NOT_FOUND)
         );
         board.setName(requestDTO.name());
         board.setDescription(requestDTO.description());
@@ -61,7 +61,7 @@ public class BoardService {
     @Transactional
     public void deleteBoard(Long boardId) {
         BoardEntity board = boardRepository.findById(boardId).orElseThrow(
-                () -> new Exception404("존재 하지 않은 게시판 입니다.")
+                () -> new CustomCommonException(ErrorEnum.BOARD_NOT_FOUND)
         );
         boardRepository.delete(board);
     }

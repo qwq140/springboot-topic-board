@@ -1,6 +1,8 @@
 package com.pjb.topicboard.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pjb.topicboard.global.common.ErrorEnum;
+import com.pjb.topicboard.global.common.ErrorResponseDTO;
 import com.pjb.topicboard.global.common.ResponseDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,19 +17,19 @@ import java.io.IOException;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        Object exceptionMessage = request.getAttribute("exception");
-        String message = exceptionMessage != null ? exceptionMessage.toString() : "인증 되지 않은 사용자 입니다.";
+        String exceptionMessage = (String) request.getAttribute("exception");
+        ErrorEnum error = exceptionMessage != null ? ErrorEnum.valueOf(exceptionMessage) : ErrorEnum.UNAUTHORIZED_USER;
 
-        sendErrorResponse(response, message);
+        sendErrorResponse(response, error);
     }
 
-    private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
+    private void sendErrorResponse(HttpServletResponse response, ErrorEnum errorEnum) throws IOException {
         ObjectMapper om = new ObjectMapper();
-        ResponseDTO responseDTO = new ResponseDTO(-1, message);
+        ErrorResponseDTO responseDTO = new ErrorResponseDTO(errorEnum);
         String responseBody = om.writeValueAsString(responseDTO);
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(errorEnum.getStatus().value());
         response.getWriter().println(responseBody);
     }
 }

@@ -3,11 +3,11 @@ package com.pjb.topicboard.domain.auth.service;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.pjb.topicboard.domain.auth.dto.request.JoinRequestDTO;
 import com.pjb.topicboard.domain.auth.dto.request.LoginRequestDTO;
+import com.pjb.topicboard.global.common.ErrorEnum;
 import com.pjb.topicboard.global.common.TokenResponseDTO;
 import com.pjb.topicboard.global.config.security.JwtProvider;
 import com.pjb.topicboard.global.config.security.TokenType;
-import com.pjb.topicboard.global.exception.Exception400;
-import com.pjb.topicboard.global.exception.Exception401;
+import com.pjb.topicboard.global.exception.CustomCommonException;
 import com.pjb.topicboard.model.user.UserEntity;
 import com.pjb.topicboard.model.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 
 @Slf4j
@@ -31,11 +29,13 @@ public class AuthService {
 
     @Transactional
     public TokenResponseDTO join(JoinRequestDTO requestDTO) {
-        Optional<UserEntity> userOptional = userRepository.findByUsername(requestDTO.username());
 
-        if(userOptional.isPresent()) {
-            throw new Exception400("이미 존재하는 아이디 입니다.");
-        }
+        if(userRepository.existsByUsername(requestDTO.username()))
+            throw new CustomCommonException(ErrorEnum.USERNAME_ALREADY_EXIST);
+
+
+        if(userRepository.existsByNickname(requestDTO.nickname()))
+            throw new CustomCommonException(ErrorEnum.NICKNAME_ALREADY_EXIST);
 
         UserEntity savedUser = userRepository.save(requestDTO.toEntity(passwordEncoder));
 
@@ -47,11 +47,11 @@ public class AuthService {
 
     public TokenResponseDTO login(LoginRequestDTO requestDTO) {
         UserEntity user = userRepository.findByUsername(requestDTO.username()).orElseThrow(
-                () -> new Exception400("아이디 또는 비밀번호가 잘못되었습니다.")
+                () -> new CustomCommonException(ErrorEnum.INVALID_CREDENTIALS)
         );
 
         if(!passwordEncoder.matches(requestDTO.password(), user.getPassword())) {
-            throw new Exception400("아이디 또는 비밀번호가 잘못되었습니다.");
+            throw  new CustomCommonException(ErrorEnum.INVALID_CREDENTIALS);
         }
 
         String accessToken = jwtProvider.createToken(user, TokenType.ACCESS_TOKEN);
@@ -61,14 +61,13 @@ public class AuthService {
     }
 
     public TokenResponseDTO reissueToken(String refreshToken) {
-        log.debug(refreshToken);
         try {
             DecodedJWT decodedJWT = jwtProvider.verify(refreshToken, TokenType.REFRESH_TOKEN);
 
             String username = decodedJWT.getClaim("username").asString();
 
             UserEntity user = userRepository.findByUsername(username).orElseThrow(
-                    () -> new Exception401("올바르지 않은 토큰입니다.")
+                    () ->  new CustomCommonException(ErrorEnum.INVALID_TOKEN)
             );
 
             String newAccessToken = jwtProvider.createToken(user, TokenType.ACCESS_TOKEN);
@@ -77,7 +76,7 @@ public class AuthService {
             return new TokenResponseDTO(newAccessToken, newRefreshToken);
 
         } catch (Exception e) {
-            throw new Exception401("올바르지 않은 토큰입니다.");
+            throw new CustomCommonException(ErrorEnum.INVALID_TOKEN);
         }
     }
 }

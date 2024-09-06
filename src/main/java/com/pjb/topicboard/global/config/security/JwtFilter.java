@@ -1,10 +1,7 @@
 package com.pjb.topicboard.global.config.security;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.pjb.topicboard.global.exception.Exception401;
+import com.pjb.topicboard.global.common.ErrorEnum;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,10 +35,8 @@ public class JwtFilter extends OncePerRequestFilter {
             String jwt = jwtHeader.replace(JwtConstants.TOKEN_PREFIX, "");
             DecodedJWT decodedJWT = provider.verify(jwt, TokenType.ACCESS_TOKEN);
             SecurityContextHolder.getContext().setAuthentication(provider.getAuthentication(decodedJWT));
-        } catch (Exception401 e) {
-            request.setAttribute("exception", e.getMessage());
         } catch (Exception e) {
-            request.setAttribute("exception",  "토큰 검증 실패");
+            request.setAttribute("exception", ErrorEnum.INVALID_TOKEN.name());
         } finally {
             filterChain.doFilter(request, response);
         }
