@@ -17,6 +17,7 @@ public class UrlRoleMapping {
             "/api/boards",
             "/api/boards/{id}",
             "/api/boards/{id}/posts",
-            "/api/posts/{id}"
+            "/api/posts/{id}",
+            "/api/posts/{id}/comments"
     };
 }
