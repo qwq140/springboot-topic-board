@@ -10,6 +10,7 @@ import com.pjb.topicboard.global.common.ResponseDTO;
 import com.pjb.topicboard.global.config.security.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,7 @@ public class CommentApiController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         CommentSaveResponseDTO responseDTO = commentService.save(requestDTO, postId, customUserDetails);
-        return ResponseEntity.ok(new ResponseDTO<>(0, "댓글 작성 완료", responseDTO));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "댓글 작성 완료", responseDTO));
     }
 
     @PutMapping("/comments/{commentId}")
@@ -42,7 +43,7 @@ public class CommentApiController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         CommentUpdateResponseDTO responseDTO = commentService.update(requestDTO, commentId, customUserDetails);
-        return ResponseEntity.ok(new ResponseDTO<>(0, "댓글 수정 완료", responseDTO));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "댓글 수정 완료", responseDTO));
     }
 
     @DeleteMapping("/comments/{commentId}")
@@ -51,7 +52,7 @@ public class CommentApiController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         commentService.delete(commentId, customUserDetails);
-        return ResponseEntity.ok(new ResponseDTO<>(0, "댓글 삭제 완료"));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "댓글 삭제 완료"));
     }
 
     @GetMapping("/posts/{postId}/comments")
@@ -59,6 +60,6 @@ public class CommentApiController {
             @PathVariable Long postId
     ) {
         CommentListResponseDTO responseDTO = commentService.findAllByPostId(postId);
-        return ResponseEntity.ok(new ResponseDTO<>(0, "댓글 목록 조회 완료", responseDTO));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "댓글 목록 조회 완료", responseDTO));
     }
 }

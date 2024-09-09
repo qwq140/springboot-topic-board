@@ -45,7 +45,7 @@ public class PostUpdateResponseDTO {
         private String name;
         private String description;
 
-        public BoardDTO(BoardEntity board) {
+        private BoardDTO(BoardEntity board) {
             this.id = board.getId();
             this.name = board.getName();
             this.description = board.getDescription();

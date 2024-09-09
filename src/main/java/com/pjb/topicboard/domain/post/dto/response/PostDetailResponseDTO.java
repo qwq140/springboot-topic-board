@@ -1,5 +1,6 @@
 package com.pjb.topicboard.domain.post.dto.response;
 
+import com.pjb.topicboard.global.CustomDateUtil;
 import com.pjb.topicboard.model.board.BoardEntity;
 import com.pjb.topicboard.model.post.PostEntity;
 import com.pjb.topicboard.model.user.UserEntity;
@@ -20,7 +21,7 @@ public class PostDetailResponseDTO {
         this.content = post.getContent();
         this.author = new AuthorDTO(post.getAuthor());
         this.boardDTO = new BoardDTO(post.getBoard());
-        this.createdAt = createdAt;
+        this.createdAt = CustomDateUtil.toStringFormat(post.getCreatedDate());
     }
 
     @Getter
@@ -29,7 +30,7 @@ public class PostDetailResponseDTO {
         private String username;
         private String nickname;
 
-        public AuthorDTO(UserEntity user) {
+        private AuthorDTO(UserEntity user) {
             this.id = user.getId();
             this.username = user.getUsername();
             this.nickname = user.getNickname();
@@ -42,7 +43,7 @@ public class PostDetailResponseDTO {
         private String name;
         private String description;
 
-        public BoardDTO(BoardEntity board) {
+        private BoardDTO(BoardEntity board) {
             this.id = board.getId();
             this.name = board.getName();
             this.description = board.getDescription();

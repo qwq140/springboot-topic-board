@@ -37,7 +37,7 @@ public class CommentListResponseDTO {
             private String username;
             private String nickname;
 
-            public AuthorDTO(UserEntity author) {
+            private AuthorDTO(UserEntity author) {
                 this.id = author.getId();
                 this.username = author.getUsername();
                 this.nickname = author.getNickname();

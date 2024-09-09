@@ -80,7 +80,7 @@ public class PostService {
         return new PostDetailResponseDTO(post);
     }
 
-    public Page<PostListResponseDTO> pagingPostsByBoardId(Long boardId, int page, int size) {
+    public PostListResponseDTO pagingPostsByBoardId(Long boardId, int page, int size) {
         boardRepository.findById(boardId).orElseThrow(
                 () -> new CustomCommonException(ErrorEnum.BOARD_NOT_FOUND)
         );
@@ -89,6 +89,6 @@ public class PostService {
 
         Page<PostEntity> postEntityPage = postRepository.findAllByBoardId(boardId, pageable);
 
-        return postEntityPage.map(PostListResponseDTO::new);
+        return new PostListResponseDTO(postEntityPage);
     }
 }

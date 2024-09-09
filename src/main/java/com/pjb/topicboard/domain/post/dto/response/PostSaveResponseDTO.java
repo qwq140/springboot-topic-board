@@ -30,7 +30,7 @@ public class PostSaveResponseDTO {
         private String username;
         private String nickname;
 
-        public AuthorDTO(UserEntity author) {
+        private AuthorDTO(UserEntity author) {
             this.id = author.getId();
             this.username = author.getUsername();
             this.nickname = author.getNickname();
@@ -43,7 +43,7 @@ public class PostSaveResponseDTO {
         private String name;
         private String description;
 
-        public BoardDTO(BoardEntity board) {
+        private BoardDTO(BoardEntity board) {
             this.id = board.getId();
             this.name = board.getName();
             this.description = board.getDescription();

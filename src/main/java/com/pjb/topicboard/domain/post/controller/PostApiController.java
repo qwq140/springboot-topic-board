@@ -67,7 +67,7 @@ public class PostApiController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Page<PostListResponseDTO> response = postService.pagingPostsByBoardId(boardId, page, size);
+        PostListResponseDTO response = postService.pagingPostsByBoardId(boardId, page, size);
         return ResponseEntity.ok(new ResponseDTO<>(1, "게시글 목록 조회", response));
     }
 }

@@ -25,7 +25,7 @@ public class CommentUpdateResponseDTO {
         private String username;
         private String nickname;
 
-        public UserDTO(UserEntity user) {
+        private UserDTO(UserEntity user) {
             this.id = user.getId();
             this.username = user.getUsername();
             this.nickname = user.getNickname();
