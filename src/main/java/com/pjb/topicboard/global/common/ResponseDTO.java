@@ -6,17 +6,17 @@ import lombok.Getter;
 public class ResponseDTO<T> {
     private final Integer code;
     private final String message;
-    private final T date;
+    private final T data;
 
     public ResponseDTO(Integer code, String message, T date) {
         this.code = code;
         this.message = message;
-        this.date = date;
+        this.data = date;
     }
 
     public ResponseDTO(Integer code, String message) {
         this.code = code;
         this.message = message;
-        this.date = null;
+        this.data = null;
     }
 }
