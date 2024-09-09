@@ -13,7 +13,8 @@ public class PostDetailResponseDTO {
     private String content;
     private AuthorDTO author;
     private BoardDTO boardDTO;
-    private String createdAt;
+    private String createdDate;
+    private String updatedDate;
 
     public PostDetailResponseDTO(PostEntity post) {
         this.id = post.getId();
@@ -21,7 +22,8 @@ public class PostDetailResponseDTO {
         this.content = post.getContent();
         this.author = new AuthorDTO(post.getAuthor());
         this.boardDTO = new BoardDTO(post.getBoard());
-        this.createdAt = CustomDateUtil.toStringFormat(post.getCreatedDate());
+        this.createdDate = CustomDateUtil.toStringFormat(post.getCreatedDate());
+        this.updatedDate = CustomDateUtil.toStringFormat(post.getUpdatedDate());
     }
 
     @Getter

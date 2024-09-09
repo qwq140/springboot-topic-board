@@ -31,14 +31,14 @@ public class PostListResponseDTO {
     private class PostDTO {
         private Long id;
         private String title;
-        private String createdAt;
+        private String createdDate;
         private BoardDTO board;
         private AuthorDTO author;
 
         private PostDTO(PostEntity post) {
             this.id = post.getId();
             this.title = post.getTitle();
-            this.createdAt = CustomDateUtil.toStringFormat(post.getCreatedDate());
+            this.createdDate = CustomDateUtil.toStringFormat(post.getCreatedDate());
             this.board = new BoardDTO(post.getBoard());
             this.author = new AuthorDTO(post.getAuthor());
         }
