@@ -566,3 +566,23 @@ CREATE TABLE COMMENT_TB (
       }
   }
   ```
+
+### 5.유저 API
+#### 5.1 로그인 유저 정보 조회
+- **URL**: `/api/users/my`
+- **Method**: `GET`
+- **Request Header**:
+  - `Authorization: Bearer {accessToken}`
+- **Response Body**:
+  ```json
+  {
+      "code": 200,
+      "message": "내 정보 조회",
+      "data": {
+          "id": 1,
+          "username": "user1",
+          "nickname": "유저1"
+      }
+  }
+  ```
+- 권한 : 인증된 사용자(USER)
