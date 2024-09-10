@@ -19,6 +19,7 @@ spring:
       encoding: UTF-8
       mode: always
       schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
   jpa:
     defer-datasource-initialization: true
     open-in-view: false # 트랜잭션 범위 밖에서 영속성 컨텍스트를 유지할지 여부

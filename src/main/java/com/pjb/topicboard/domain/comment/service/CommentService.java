@@ -63,6 +63,10 @@ public class CommentService {
                 () -> new CustomCommonException(ErrorEnum.COMMENT_NOT_FOUND)
         );
 
+        if(!comment.getAuthor().getId().equals(customUserDetails.getUser().getId())){
+            throw new CustomCommonException(ErrorEnum.FORBIDDEN_USER);
+        }
+
         commentRepository.delete(comment);
     }
 

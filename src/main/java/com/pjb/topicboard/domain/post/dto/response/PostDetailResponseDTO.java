@@ -12,7 +12,7 @@ public class PostDetailResponseDTO {
     private String title;
     private String content;
     private AuthorDTO author;
-    private BoardDTO boardDTO;
+    private BoardDTO board;
     private String createdDate;
     private String updatedDate;
 
@@ -21,7 +21,7 @@ public class PostDetailResponseDTO {
         this.title = post.getTitle();
         this.content = post.getContent();
         this.author = new AuthorDTO(post.getAuthor());
-        this.boardDTO = new BoardDTO(post.getBoard());
+        this.board = new BoardDTO(post.getBoard());
         this.createdDate = CustomDateUtil.toStringFormat(post.getCreatedDate());
         this.updatedDate = CustomDateUtil.toStringFormat(post.getUpdatedDate());
     }
