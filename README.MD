@@ -286,3 +286,283 @@ CREATE TABLE COMMENT_TB (
   }
   ```
 - 권한 : 인증된 사용자(USER)
+
+#### 3.2 게시글 수정
+- **URL**: `/api/posts/{postId}`
+- **Method**: `PUT`
+- **Request Header**:
+  - `Content-Type: application/json`
+  - `Authorization: Bearer {accessToken}`
+- **Request Body**:
+  ```json
+  {
+      "title" : "게시글 제목1 수정",
+      "content" : "게시글 내용1 수정"
+  }
+  ```
+- **Response Body**:
+  ```json
+  {
+      "code": 200,
+      "message": "게시글 수정 완료",
+      "data": {
+          "id": 1,
+          "title": "게시글 제목1 수정",
+          "content": "게시글 내용1 수정",
+          "author": {
+              "id": 1,
+              "username": "admin1234",
+              "nickname": "어드민1"
+          },
+          "board": {
+              "id": 1,
+              "name": "게시판1",
+              "description": "게시판1에 관한 설명"
+          },
+          "createdDate": "2024-09-10 15:20:48",
+          "updatedDate": "2024-09-10 15:21:08"
+      }
+  }
+  ```
+- 권한 : 인증된 사용자(USER)
+
+#### 3.3 게시글 삭제
+- **URL**: `/api/posts/{postId}`
+- **Method**: `DELETE`
+- **Request Header**:
+  - `Authorization: Bearer {accessToken}`
+- **Response Body**
+  ```json
+  {
+      "code": 200,
+      "message": "게시글 삭제 완료",
+      "data": null
+  }
+  ```
+- 권한 : 인증된 사용자(USER)
+
+#### 3.4 게시글 목록 조회
+- **URL**: `/api/boards/{boardId}/posts?size=10&page=0`
+- **Method**: `GET`
+- **Response Body**
+  ```json
+  {
+      "code": 200,
+      "message": "게시글 목록 조회",
+      "data": {
+          "posts": [
+              {
+                  "id": 5,
+                  "title": "게시글 제목4",
+                  "createdDate": "2024-09-10 15:28:23",
+                  "board": {
+                      "id": 1,
+                      "name": "게시판1"
+                  },
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              },
+              {
+                  "id": 4,
+                  "title": "게시글 제목3",
+                  "createdDate": "2024-09-10 15:28:16",
+                  "board": {
+                      "id": 1,
+                      "name": "게시판1"
+                  },
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              },
+              {
+                  "id": 3,
+                  "title": "게시글 제목2",
+                  "createdDate": "2024-09-10 15:28:09",
+                  "board": {
+                      "id": 1,
+                      "name": "게시판1"
+                  },
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              },
+              {
+                  "id": 2,
+                  "title": "게시글 제목1",
+                  "createdDate": "2024-09-10 15:28:02",
+                  "board": {
+                      "id": 1,
+                      "name": "게시판1"
+                  },
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              }
+          ],
+          "totalPages": 1,
+          "totalElements": 4,
+          "currentPage": 0,
+          "pageSize": 10
+      }
+  }
+  ```
+
+#### 3.5 게시글 상세 조회
+- **URL**: `/api/posts/{postId}`
+- **Method**: `GET`
+- **Response Body**
+  ```json
+  {
+      "code": 200,
+      "message": "게시글 조회 완료",
+      "data": {
+          "id": 2,
+          "title": "게시글 제목1",
+          "content": "게시글 내용1",
+          "author": {
+              "id": 1,
+              "username": "admin1234",
+              "nickname": "어드민1"
+          },
+          "board": {
+              "id": 1,
+              "name": "게시판1",
+              "description": "게시판1에 관한 설명"
+          },
+          "createdDate": "2024-09-10 15:28:02",
+          "updatedDate": "2024-09-10 15:28:02"
+      }
+  }
+  ```
+
+### 4.댓글 API
+#### 4.1 댓글 작성
+- **URL**: `/api/posts/{postId}/comments`
+- **Method**: `POST`
+- **Request Header**:
+  - `Content-Type: application/json`
+  - `Authorization: Bearer {accessToken}`
+- **Request Body**:
+  ```json
+  {
+      "content" : "댓글 내용1"
+  }
+  ```
+- **Response Body**:
+  ```json
+  {
+      "code": 200,
+      "message": "댓글 작성 완료",
+      "data": {
+          "id": 1,
+          "content": "댓글 내용1",
+          "createdDate": "2024-09-10 15:32:52",
+          "author": {
+              "id": 1,
+              "username": "admin1234",
+              "nickname": "어드민1"
+          }
+      }
+  }
+  ```
+- 권한 : 인증된 사용자(USER)
+
+#### 4.2 댓글 수정
+- **URL**: `/api/comments/{commentId}`
+- **Method**: `PUT`
+- **Request Header**:
+  - `Content-Type: application/json`
+  - `Authorization: Bearer {accessToken}`
+- **Request Body**:
+  ```json
+  {
+      "content" : "댓글1 수정"
+  }
+  ```
+- **Response Body**:
+  ```json
+  {
+      "code": 200,
+      "message": "댓글 수정 완료",
+      "data": {
+          "id": 1,
+          "content": "댓글1 수정",
+          "createdDate": "2024-09-10 15:32:52",
+          "author": {
+              "id": 1,
+              "username": "admin1234",
+              "nickname": "어드민1"
+          }
+      }
+  }
+  ```
+- 권한 : 인증된 사용자(USER)
+
+#### 4.3 댓글 삭제
+- **URL**: `/api/comments/{commentId}`
+- **Method**: `DELETE`
+- **Request Header**:
+  - `Authorization: Bearer {accessToken}`
+- **Response Body**
+  ```json
+  {
+      "code": 200,
+      "message": "댓글 삭제 완료",
+      "data": null
+  }
+  ```
+- 권한 : 인증된 사용자(USER)
+
+#### 4.4 댓글 목록 조회
+- **URL**: `/api/posts/{postId}/comments`
+- **Method**: `GET`
+- **Response Body**
+  ```json
+  {
+      "code": 200,
+      "message": "댓글 목록 조회 완료",
+      "data": {
+          "comments": [
+              {
+                  "id": 1,
+                  "content": "댓글 내용1",
+                  "createdDate": "2024-09-10 15:36:31",
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              },
+              {
+                  "id": 2,
+                  "content": "댓글 내용2",
+                  "createdDate": "2024-09-10 15:36:36",
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              },
+              {
+                  "id": 3,
+                  "content": "댓글 내용3",
+                  "createdDate": "2024-09-10 15:36:39",
+                  "author": {
+                      "id": 1,
+                      "username": "admin1234",
+                      "nickname": "어드민1"
+                  }
+              }
+          ]
+      }
+  }
+  ```
