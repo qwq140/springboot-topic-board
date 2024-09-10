@@ -55,7 +55,9 @@ public class BoardService {
         board.setName(requestDTO.name());
         board.setDescription(requestDTO.description());
 
-        return new BoardUpdateResponseDTO(board);
+        BoardEntity updatedBoard = boardRepository.saveAndFlush(board);
+
+        return new BoardUpdateResponseDTO(updatedBoard);
     }
 
     @Transactional
