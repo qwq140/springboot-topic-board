@@ -580,8 +580,12 @@ CREATE TABLE COMMENT_TB (
       "message": "내 정보 조회",
       "data": {
           "id": 1,
-          "username": "user1",
-          "nickname": "유저1"
+          "username": "admin1234",
+          "nickname": "어드민1",
+          "roles": [
+              "ADMIN",
+              "USER"
+          ]
       }
   }
   ```
