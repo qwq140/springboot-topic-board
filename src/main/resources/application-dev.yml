@@ -7,23 +7,23 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:postgresql://localhost:5432/board
+    driverClassName: org.postgresql.Driver
+    username: pjay
+    password: 1234
   h2:
     console:
       enabled: true
-  sql:
-    init:
-      encoding: UTF-8
-      mode: always
-      schema-locations: classpath:db/schema.sql
-      data-locations: classpath:db/data.sql
+#  sql:
+#    init:
+#      encoding: UTF-8
+#      mode: always
+#      schema-locations: classpath:db/schema.sql
+#      data-locations: classpath:db/data.sql
   jpa:
     defer-datasource-initialization: true
     open-in-view: false # 트랜잭션 범위 밖에서 영속성 컨텍스트를 유지할지 여부
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none # create-drop, update, validate, none
       naming:

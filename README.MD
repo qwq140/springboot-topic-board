@@ -9,49 +9,69 @@ Topic Board를 위한 RESTful API를 제공합니다. 주제별로 게시판이 
 - Spring Security
 
 ## Database
+### 로컬 DB 세팅
+1. [docker desktop 다운로드](https://www.docker.com/products/docker-desktop/)
+2. docker-compose.yml 작성
+```yaml
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: pjay
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: board
+```
+3. 실행 : docker compose up -d 
+4. 종료 : docker compose down
+
 ### DDL
 ```sql
 CREATE TABLE USER_TB (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(20) UNIQUE,
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(20) unique not null,
     password VARCHAR(60) NOT NULL,
-    nickname VARCHAR(20) UNIQUE,
+    nickname VARCHAR(20) unique not null,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE USER_ROLE_TB (
-    user_id BIGINT,
-    role ENUM('ADMIN', 'USER') NOT NULL,
+    user_id BIGINT not null,
+    role VARCHAR(10) not null check (role in ('ADMIN', 'USER')),
     PRIMARY KEY (user_id, role),
     FOREIGN KEY (user_id) REFERENCES USER_TB(id) ON DELETE CASCADE
 );
 
 CREATE TABLE BOARD_TB (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(60) NOT NULL UNIQUE,
     description VARCHAR(255),
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE POST_TB (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     author_id BIGINT NOT NULL,
     board_id BIGINT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE COMMENT_TB (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     content TEXT NOT NULL,
     author_id BIGINT NOT NULL,
     post_id BIGINT NOT NULL,
     created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    updated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (author_id) REFERENCES USER_TB(id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES POST_TB(id) ON DELETE CASCADE
 );
