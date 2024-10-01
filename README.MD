@@ -87,6 +87,10 @@ CREATE TABLE COMMENT_TB (
 - 게시판 생성, 조회, 수정, 삭제
 - 게시글 작성, 조회, 수정, 삭제
 - 댓글 작성, 조회, 수정, 삭제
+- 내 정보 조회
+
+## 스웨거 주소
+http://localhost:8080/swagger-ui/index.html
 
 ## 엔드포인트 목록
 ### 1. 인증 API

@@ -16,7 +16,7 @@ public enum ErrorEnum {
     FORBIDDEN_USER(HttpStatus.FORBIDDEN, "AUTH-003", "접근 권한이 없습니다."),
 
     /* USER */
-    INVALID_CREDENTIALS(HttpStatus.NOT_FOUND, "USER-001","아이디 또는 비밀번호가 틀렸습니다."),
+    INVALID_CREDENTIALS(HttpStatus.BAD_REQUEST, "USER-001","아이디 또는 비밀번호가 틀렸습니다."),
     USERNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "USER-002", "이미 존재하는 아이디입니다."),
     NICKNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, "USER-003", "이미 존재하는 닉네임입니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "USER-004", "회원 정보를 찾을 수 없습니다."),

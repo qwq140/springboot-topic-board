@@ -25,8 +25,8 @@ public class BoardService {
 
     @Transactional
     public BoardSaveResponseDTO saveBoard(BoardSaveRequestDTO requestDTO) {
-        Optional<BoardEntity> boardOptional = boardRepository.findByName(requestDTO.name());
-        if(boardOptional.isPresent()) {
+        boolean boardNameDuplicateCheck = boardRepository.existsByName(requestDTO.name());
+        if(boardNameDuplicateCheck) {
             throw new CustomCommonException(ErrorEnum.BOARD_ALREADY_EXIST);
         }
 
@@ -52,6 +52,12 @@ public class BoardService {
         BoardEntity board = boardRepository.findById(boardId).orElseThrow(
                 () -> new CustomCommonException(ErrorEnum.BOARD_NOT_FOUND)
         );
+
+        boolean boardNameDuplicateCheck = boardRepository.existsByName(requestDTO.name());
+        if(boardNameDuplicateCheck) {
+            throw new CustomCommonException(ErrorEnum.BOARD_ALREADY_EXIST);
+        }
+
         board.setName(requestDTO.name());
         board.setDescription(requestDTO.description());
 

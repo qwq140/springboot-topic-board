@@ -11,9 +11,9 @@ spring:
     driverClassName: org.postgresql.Driver
     username: pjay
     password: 1234
-  h2:
-    console:
-      enabled: true
+#  h2:
+#    console:
+#      enabled: true
 #  sql:
 #    init:
 #      encoding: UTF-8

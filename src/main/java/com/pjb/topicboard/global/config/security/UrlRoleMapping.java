@@ -18,6 +18,8 @@ public class UrlRoleMapping {
             "/api/boards/{id}",
             "/api/boards/{id}/posts",
             "/api/posts/{id}",
-            "/api/posts/{id}/comments"
+            "/api/posts/{id}/comments",
+            "/swagger-ui/**",
+            "/v3/api-docs/**"
     };
 }
