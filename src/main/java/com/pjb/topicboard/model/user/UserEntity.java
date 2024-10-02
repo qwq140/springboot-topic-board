@@ -27,7 +27,7 @@ public class UserEntity extends BaseTimeEntity {
     @Column(nullable = false, length = 20)
     private String nickname;
 
-    @ElementCollection(targetClass = UserRoleType.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = UserRoleType.class, fetch = FetchType.LAZY)
     @JoinTable(name = "USER_ROLE_TB", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRoleType> role = new HashSet<>();

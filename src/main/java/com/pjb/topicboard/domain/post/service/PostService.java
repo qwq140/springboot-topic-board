@@ -80,15 +80,22 @@ public class PostService {
         return new PostDetailResponseDTO(post);
     }
 
-    public PostListResponseDTO pagingPostsByBoardId(Long boardId, int page, int size) {
+    public PostListResponseDTO pagingPostsByBoardId(Long boardId, int page, int size, String keyword) {
         boardRepository.findById(boardId).orElseThrow(
                 () -> new CustomCommonException(ErrorEnum.BOARD_NOT_FOUND)
         );
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
 
-        Page<PostEntity> postEntityPage = postRepository.findAllByBoardId(boardId, pageable);
+        Page<PostEntity> postEntityPage;
+        if(keyword != null && !keyword.isEmpty()) {
+            postEntityPage = postRepository.searchByKeyword(boardId, keyword, pageable);
 
+        } else {
+            postEntityPage = postRepository.findAllByBoardId(boardId, pageable);
+        }
         return new PostListResponseDTO(postEntityPage);
+
+
     }
 }

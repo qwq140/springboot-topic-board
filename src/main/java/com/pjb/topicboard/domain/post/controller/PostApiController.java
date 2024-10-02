@@ -107,9 +107,10 @@ public class PostApiController {
     public ResponseEntity<ResponseDTO<PostListResponseDTO>> pagingPost(
             @PathVariable Long boardId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false, name = "keyword") String keyword
     ) {
-        PostListResponseDTO response = postService.pagingPostsByBoardId(boardId, page, size);
+        PostListResponseDTO response = postService.pagingPostsByBoardId(boardId, page, size, keyword);
         return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), "게시글 목록 조회", response));
     }
 }

@@ -190,6 +190,13 @@ http://localhost:8080/swagger-ui/index.html
 #### 2.2 게시판 목록 조회
 - **URL**: `/api/boards`
 - **Method**: `GET`
+- **Query Parameters**:
+
+| Name      | Type     | Required | Description                |
+|-----------|----------|----------|----------------------------|
+| `page`    | Integer  | No       | 페이지 번호 (기본값: 0)            |
+| `size`    | Integer  | No       | 한 페이지에 표시할 게시판 수 (기본값: 10) |
+| `keyword` | String   | No       | 검색어                        |
 - **Response Body**:
   ```json
   {
